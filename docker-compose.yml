@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  hummingbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hummingbot-linea
+    restart: unless-stopped
+
+    # Environment variables from .env file
+    env_file:
+      - .env
+
+    environment:
+      # Linea RPC Endpoints
+      - LINEA_RPC_URL=${LINEA_RPC_URL:-https://rpc.linea.build}
+      - LINEA_RPC_BACKUP=${LINEA_RPC_BACKUP:-https://linea-mainnet.infura.io/v3/}
+      - LINEA_WEBSOCKET_URL=${LINEA_WEBSOCKET_URL:-wss://rpc.linea.build}
+
+      # Testnet endpoints (for development)
+      - LINEA_TESTNET_RPC=${LINEA_TESTNET_RPC:-https://rpc.goerli.linea.build}
+
+      # Trading Configuration
+      - STRATEGY=${STRATEGY:-pure_market_making}
+      - TRADING_PAIR=${TRADING_PAIR:-RENZO-USDC}
+      - EXCHANGE=${EXCHANGE:-linea_clob}
+
+      # Risk Management
+      - MAX_ORDER_AGE=${MAX_ORDER_AGE:-300}
+      - KILL_SWITCH_ENABLED=${KILL_SWITCH_ENABLED:-true}
+      - KILL_SWITCH_RATE=${KILL_SWITCH_RATE:--10}
+
+      # Logging
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENABLE_PERFORMANCE_METRICS=${ENABLE_PERFORMANCE_METRICS:-true}
+
+    volumes:
+      # Persist Hummingbot data
+      - ./data:/home/hummingbot/data
+      - ./conf:/home/hummingbot/conf
+      - ./logs:/home/hummingbot/logs
+      - ./scripts:/home/hummingbot/scripts
+
+      # Mount wallet keys (read-only for security)
+      - ./certs:/home/hummingbot/certs:ro
+
+    ports:
+      - "8080:8080"  # HTTP API
+      - "8081:8081"  # WebSocket
+
+    networks:
+      - linea-network
+
+    # Resource limits to prevent runaway processes
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+  # Optional: PostgreSQL for trade history
+  postgres:
+    image: timescale/timescaledb:latest-pg14
+    container_name: hummingbot-db
+    restart: unless-stopped
+
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-hummingbot}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-changeme}
+      - POSTGRES_DB=${POSTGRES_DB:-hummingbot_trades}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    ports:
+      - "5432:5432"
+
+    networks:
+      - linea-network
+
+    # Only start if explicitly needed
+    profiles:
+      - with-db
+
+networks:
+  linea-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

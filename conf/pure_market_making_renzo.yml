@@ -1,0 +1,77 @@
+################################################################################
+# Pure Market Making Strategy Configuration
+# Trading Pair: RENZO-USDC on Linea CLOB
+# Strategy: Provide liquidity on both sides of the order book
+################################################################################
+
+# Exchange and market configuration
+exchange: linea_clob
+market: RENZO-USDC
+
+# Order spread configuration (percentage from mid-price)
+bid_spread: 0.5  # 0.5% below mid-price
+ask_spread: 0.5  # 0.5% above mid-price
+
+# Minimum spread to maintain profitability (includes fees)
+minimum_spread: 0.3
+
+# Order amount per level (in base asset - RENZO)
+order_amount: 100
+
+# Number of orders to place on each side
+order_levels: 3
+
+# Order level spread (incremental spread for each level)
+order_level_spread: 0.2  # Additional 0.2% per level
+
+# Order level amount (multiplier for each subsequent level)
+order_level_amount: 1.0  # Keep amounts constant across levels
+
+# Order refresh time (seconds)
+order_refresh_time: 30
+
+# Maximum order age before cancellation (seconds)
+max_order_age: 300
+
+# Inventory skew feature (adjust orders based on inventory)
+inventory_skew_enabled: true
+inventory_target_base_pct: 50  # Target 50% in base asset (RENZO)
+inventory_range_multiplier: 1.5
+
+# Filled order delay (seconds to wait before placing new order after fill)
+filled_order_delay: 10
+
+# Hanging orders feature (keep orders if price moves)
+hanging_orders_enabled: false
+hanging_orders_cancel_pct: 2.0
+
+# Order optimization (adjust prices based on top of book)
+order_optimization_enabled: true
+ask_order_optimization_depth: 1000  # Consider top 1000 USDC of ask liquidity
+bid_order_optimization_depth: 1000  # Consider top 1000 USDC of bid liquidity
+
+# Add transaction costs to order prices
+add_transaction_costs: true
+
+# Price source (use external market for more accurate pricing)
+price_source: external_market
+price_source_exchange: binance
+price_source_market: ETH-USDT  # Use ETH as proxy if RENZO not available
+price_source_custom: false
+
+# Order types
+order_type: limit
+
+# Rate limits
+rate_limits_enabled: true
+max_orders_per_batch: 5
+
+# Kill switch (stop trading if losses exceed threshold)
+kill_switch_enabled: true
+kill_switch_rate: -10.0  # Stop if portfolio loses 10%
+
+# Performance tracking
+enable_performance_analysis: true
+
+# Logging
+debug_price_source: false

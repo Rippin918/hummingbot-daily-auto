@@ -1,0 +1,66 @@
+################################################################################
+# Liquidity Mining Strategy Configuration
+# Trading Pairs: Multiple R7 pairs on Linea
+# Strategy: Earn rewards by providing liquidity
+################################################################################
+
+# Exchange configuration
+exchange: linea_clob
+
+# Markets to provide liquidity for (R7 pairs)
+markets:
+  linea_clob:
+    - R7-ETH
+    - R7-USDC
+    - RENZO-ETH
+    - RENZO-USDC
+
+# Token address (for campaign verification)
+token: "R7"  # Renzo R7 token symbol
+
+# Spread configuration (wider spreads for farming)
+spread: 1.0  # 1% spread to reduce rebalancing costs
+
+# Order amount per market (in base asset)
+order_amount: 50
+
+# Target base asset percentage (for inventory management)
+target_base_pct: 50
+
+# Order refresh time (longer for liquidity mining)
+order_refresh_time: 60
+
+# Volatility management
+volatility_interval: 300  # Check volatility every 5 minutes
+avg_volatility_period: 10  # Use 10-period average
+volatility_to_spread_multiplier: 1.5  # Increase spread in volatile markets
+
+# Inventory risk management
+inventory_risk_aversion: 0.5  # Moderate risk aversion
+inventory_range_multiplier: 2.0  # Allow wider inventory ranges
+
+# Order size management
+order_level_parameter: 0.5
+order_level_spread: 0.3
+
+# Campaign eligibility settings
+max_order_age: 600  # 10 minutes max order age
+min_order_amount: 10  # Minimum order size for campaign
+
+# Profit taking
+take_if_crossed: true  # Take profit if orders get crossed
+
+# Kill switch
+kill_switch_enabled: true
+kill_switch_rate: -15.0  # Stop if losses exceed 15%
+
+# Enable multiple orders per side
+multiple_orders_enabled: true
+order_levels: 2
+
+# Performance tracking
+enable_performance_analysis: true
+
+# Rate limits
+rate_limits_enabled: true
+max_orders_per_batch: 10
