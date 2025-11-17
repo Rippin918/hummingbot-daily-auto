@@ -1,0 +1,64 @@
+# Sapient HRM Liquidity Curator Configuration
+# Optimized for Linea Ignition Rewards Program
+
+# Network Configuration
+network:
+  chain: linea
+  rpc_endpoint: https://rpc.linea.build
+  chain_id: 59144
+
+# Linea Ignition Program Settings
+linea_ignition:
+  enabled: true
+  program_contract: "0x..." # Update with actual Linea Ignition contract
+  reward_token: LXP-L
+  min_liquidity_threshold: 1000  # USD equivalent
+  target_apr_range: [15, 50]  # Target APR % range
+
+# Sapient HRM Settings
+sapient:
+  enabled: true
+  model_name: meta-llama/Llama-2-7b-hf  # Base model for HRM
+  temperature: 0.7
+  confidence_threshold: 0.75  # Minimum confidence for automated actions
+  learning_mode: true  # Enable continuous learning from outcomes
+
+# Monitoring Configuration
+monitoring:
+  check_interval: 300  # seconds (5 minutes)
+  price_impact_threshold: 2.0  # % - alert if price impact exceeds
+  impermanent_loss_threshold: 5.0  # % - alert if IL exceeds
+
+# Position Management
+positions:
+  auto_rebalance: true
+  rebalance_threshold: 10.0  # % deviation from optimal
+  max_positions: 5
+  min_position_size: 100  # USD
+
+# Risk Management
+risk:
+  max_drawdown: 20.0  # % - maximum acceptable drawdown
+  stop_loss_enabled: true
+  emergency_exit_threshold: 30.0  # % - emergency exit if losses exceed
+
+# Alerts & Notifications
+alerts:
+  discord_webhook: null  # Add your Discord webhook URL
+  telegram_bot_token: null  # Add your Telegram bot token
+  telegram_chat_id: null  # Add your Telegram chat ID
+  email_enabled: false
+
+# Logging
+logging:
+  level: INFO  # DEBUG, INFO, WARNING, ERROR
+  file: logs/curator.log
+  rotation: daily
+  retention_days: 30
+
+# Strategy Preferences
+strategy:
+  prefer_stable_pairs: true  # Prioritize stablecoin pairs for lower IL
+  focus_on_linea_native: true  # Prioritize Linea-native tokens
+  compound_rewards: true  # Auto-compound earned rewards
+  gas_optimization: true  # Batch transactions to save gas

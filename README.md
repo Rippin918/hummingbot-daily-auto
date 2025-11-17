@@ -10,6 +10,7 @@ Dockerized Hummingbot deployment with automatic daily updates, configured for ma
 - **Risk Management**: Kill switches and inventory management
 - **Monitoring**: Health checks and notifications
 - **Backup System**: Automatic backups before updates
+- **🤖 Sapient HRM Curator**: AI-powered liquidity monitoring for Linea Ignition rewards
 
 ## 🚀 Quick Start
 
@@ -199,6 +200,43 @@ docker exec -it hummingbot-linea bash
 # Run hummingbot command
 docker exec -it hummingbot-linea hummingbot status
 ```
+
+## 🤖 Sapient HRM Liquidity Curator
+
+**NEW**: Intelligent AI-powered curator for optimizing Linea Ignition rewards!
+
+### Quick Start
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure your wallet
+cp .env.example .env
+nano .env  # Add your WALLET_ADDRESS and PRIVATE_KEY
+
+# Run the curator
+./scripts/run_curator.sh
+```
+
+### Features
+
+- **AI-Powered Decisions**: Uses Sapient HRM (Hierarchical Reasoning Model) for intelligent position management
+- **Linea Ignition Optimized**: Specifically tuned for maximizing LXP-L rewards
+- **Auto-Rebalancing**: Automatically rebalances positions based on market conditions
+- **Risk Management**: Built-in stop-loss, drawdown limits, and IL monitoring
+- **Multi-Pool Support**: Monitors and manages positions across multiple DEXes
+- **Gas Optimization**: Batches transactions to minimize fees on Linea
+
+### Configuration
+
+Edit `conf/curator_config.yml` to customize:
+- Position size limits and thresholds
+- Risk management parameters
+- Alert settings (Discord, Telegram)
+- Monitoring intervals
+
+For detailed documentation, see **[Curator Documentation](docs/CURATOR.md)**
 
 ## 📈 Strategies
 

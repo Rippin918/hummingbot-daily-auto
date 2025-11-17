@@ -45,6 +45,17 @@ conf/*.yml
 !conf/*.yml.example
 !conf/pure_market_making_renzo.yml
 !conf/liquidity_mining_r7.yml
+!conf/curator_config.yml
+
+# Sapient HRM Curator
+.curator_state/
+models/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+.cache/huggingface/
 
 # Private keys and certificates
 certs/
