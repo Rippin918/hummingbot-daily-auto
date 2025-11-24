@@ -1,0 +1,133 @@
+{
+  "network": "linea",
+  "chain_id": 59144,
+  "rpc_url": "https://rpc.linea.build",
+  "dex": "lynex",
+  "block_time": 2.0,
+  "pools": {
+    "WETH-USDC": {
+      "address": "0x...",
+      "symbol": "WETH-USDC",
+      "token0": {
+        "address": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+        "symbol": "WETH",
+        "decimals": 18
+      },
+      "token1": {
+        "address": "0x176211869cA2b568f2A7D4EE941E073a821EE1ff",
+        "symbol": "USDC",
+        "decimals": 6
+      },
+      "fee": 3000,
+      "tick_spacing": 60,
+      "tick_range": 200,
+      "priority": "high",
+      "notes": "Primary verification pair - high liquidity"
+    },
+    "REX-WETH": {
+      "address": "0x...",
+      "symbol": "REX-WETH",
+      "token0": {
+        "address": "0x...",
+        "symbol": "REX",
+        "decimals": 18,
+        "notes": "Verify correct contract address on Linea DEX Screener"
+      },
+      "token1": {
+        "address": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+        "symbol": "WETH",
+        "decimals": 18
+      },
+      "fee": 10000,
+      "tick_spacing": 200,
+      "tick_range": 300,
+      "priority": "high",
+      "notes": "REX (Etherex) - Confirm pool exists on Lynex"
+    },
+    "FOXY-WETH": {
+      "address": "0x...",
+      "symbol": "FOXY-WETH",
+      "token0": {
+        "address": "0x...",
+        "symbol": "FOXY",
+        "decimals": 18,
+        "notes": "On Lynex and SyncSwap - verify correct pair"
+      },
+      "token1": {
+        "address": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+        "symbol": "WETH",
+        "decimals": 18
+      },
+      "fee": 10000,
+      "tick_spacing": 200,
+      "tick_range": 300,
+      "priority": "high"
+    },
+    "LINEA-WETH": {
+      "address": "0x...",
+      "symbol": "LINEA-WETH",
+      "token0": {
+        "address": "0x7d2bA228C5a28e1CA11a0e40f595c6FB0Dd9a9D4",
+        "symbol": "LINEA",
+        "decimals": 18,
+        "notes": "Native LINEA token"
+      },
+      "token1": {
+        "address": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+        "symbol": "WETH",
+        "decimals": 18
+      },
+      "fee": 3000,
+      "tick_spacing": 60,
+      "tick_range": 250,
+      "priority": "medium"
+    },
+    "EURE-USDC": {
+      "address": "0x...",
+      "symbol": "EURE-USDC",
+      "token0": {
+        "address": "0x...",
+        "symbol": "EURE",
+        "decimals": 18,
+        "notes": "EURE/USDC pair on NILE exchange - verify exists on Lynex"
+      },
+      "token1": {
+        "address": "0x176211869cA2b568f2A7D4EE941E073a821EE1ff",
+        "symbol": "USDC",
+        "decimals": 6
+      },
+      "fee": 500,
+      "tick_spacing": 10,
+      "tick_range": 150,
+      "priority": "medium"
+    }
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "db": 0,
+    "channel_prefix": "linea:lynex"
+  },
+  "collector": {
+    "default_tick_range": 200,
+    "snapshot_interval": 2.0,
+    "max_snapshots": 10000,
+    "auto_save_interval": 300
+  },
+  "analyzer": {
+    "lookback_periods": 20,
+    "hole_threshold": 0.05,
+    "fibonacci_range_percent": 5.0,
+    "imbalance_threshold": 0.3,
+    "velocity_threshold": 0.01
+  },
+  "discovery": {
+    "notes": [
+      "Pool addresses marked with 0x... need to be discovered",
+      "Run: python3 linea_data_collector.py --discover",
+      "Use DEX Screener or query subgraph directly to find pool contracts",
+      "Verify tokens are on Linea (chain ID 59144)",
+      "Check multiple DEXs: Lynex, SyncSwap, NILE, Velocore"
+    ]
+  }
+}
