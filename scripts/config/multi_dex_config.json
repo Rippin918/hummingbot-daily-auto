@@ -1,0 +1,164 @@
+{
+  "network": "linea",
+  "chain_id": 59144,
+  "rpc_url": "https://rpc.linea.build",
+  "block_time": 2.0,
+
+  "dexes": {
+    "lynex": {
+      "name": "Lynex",
+      "type": "uniswap_v3",
+      "subgraph": "https://api.goldsky.com/api/public/project_clv14x49kz9kz01saerx7bxpg/subgraphs/lynex/1.0.0/gn",
+      "pools": {
+        "WETH-USDC": {
+          "address": "0x...",
+          "symbol": "WETH-USDC",
+          "token0": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+          "token1": "0x176211869cA2b568f2A7D4EE941E073a821EE1ff",
+          "fee": 3000,
+          "tick_spacing": 60,
+          "priority": "high"
+        }
+      }
+    },
+
+    "etherex": {
+      "name": "Etherex (REX)",
+      "type": "uniswap_v3",
+      "description": "Top DEX on Linea by users (68K)",
+      "pools": {
+        "LINEA-WETH": {
+          "address": "ETHEREX-LINEA-WETH-6600",
+          "symbol": "LINEA-WETH",
+          "token0": "0x7d2bA228C5a28e1CA11a0e40f595c6FB0Dd9a9D4",
+          "token1": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+          "fee": 6600,
+          "tick_spacing": 132,
+          "liquidity_usd": 2860000,
+          "priority": "high",
+          "notes": "Configured pool with ~2.86M liquidity, detecting liquidity holes"
+        }
+      }
+    },
+
+    "nile": {
+      "name": "Nile",
+      "type": "uniswap_v3",
+      "subgraph": "https://graph.nile.build/subgraphs/name/nile/nile-v1",
+      "pools": {
+        "EURE-USDC": {
+          "address": "0x...",
+          "symbol": "EURE-USDC",
+          "token0": "0x...",
+          "token1": "0x176211869cA2b568f2A7D4EE941E073a821EE1ff",
+          "fee": 500,
+          "tick_spacing": 10,
+          "priority": "medium"
+        }
+      }
+    },
+
+    "syncswap": {
+      "name": "SyncSwap",
+      "type": "classic_amm",
+      "subgraph": "https://api.studio.thegraph.com/query/50473/syncswap-linea/version/latest",
+      "description": "zkSync-style AMM on Linea",
+      "pools": {
+        "FOXY-WETH": {
+          "address": "0x...",
+          "symbol": "FOXY-WETH",
+          "token0": "0x...",
+          "token1": "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f",
+          "priority": "medium",
+          "notes": "FOXY on Lynex and SyncSwap - verify correct pair"
+        }
+      }
+    },
+
+    "kyberswap": {
+      "name": "KyberSwap Elastic",
+      "type": "uniswap_v3",
+      "description": "Concentrated liquidity with anti-sniping",
+      "pools": {}
+    }
+  },
+
+  "redis": {
+    "host": "localhost",
+    "port": 6379,
+    "db": 0,
+    "channel_template": "linea:{dex}:{pair}:ticks",
+    "arb_channel": "linea:cross-dex:{pair}:arb"
+  },
+
+  "market_making": {
+    "inventory": {
+      "max_inventory": 100.0,
+      "target_inventory": 0.0,
+      "gamma": 0.1,
+      "T": 1.0
+    },
+    "vpin": {
+      "bucket_size": 50.0,
+      "num_buckets": 50,
+      "toxicity_thresholds": {
+        "safe": 0.3,
+        "normal": 0.5,
+        "elevated": 0.7,
+        "high": 1.0
+      }
+    },
+    "volatility": {
+      "window_periods": 100,
+      "min_periods": 20,
+      "annualize": true,
+      "estimator": "garman_klass"
+    },
+    "avellaneda_stoikov": {
+      "gamma": 0.1,
+      "k": 1.5,
+      "T": 1.0
+    },
+    "orderflow": {
+      "window_size": 100,
+      "imbalance_threshold": 0.2
+    },
+    "kyle_lambda": {
+      "window_size": 100
+    }
+  },
+
+  "cross_dex": {
+    "enabled": true,
+    "min_arb_bps": 20,
+    "gas_costs": {
+      "swap": 3.0,
+      "arb": 8.0
+    },
+    "check_interval_seconds": 5
+  },
+
+  "sapient_hrm": {
+    "enabled": false,
+    "endpoint": "http://localhost:8080",
+    "api_key": "${SAPIENT_API_KEY}"
+  },
+
+  "hummingbot_mcp": {
+    "enabled": false,
+    "config_path": "~/.hummingbot",
+    "strategy": "avellaneda_market_making"
+  },
+
+  "discovery": {
+    "notes": [
+      "To discover pool addresses:",
+      "1. Run: python3 scripts/linea_data_collector.py --discover",
+      "2. Or query DEX subgraphs directly",
+      "3. Or use DEX Screener: https://dexscreener.com/linea",
+      "",
+      "Etherex pool ETHEREX-LINEA-WETH-6600 is already configured.",
+      "This pool has ~2.86M liquidity and is actively monitored."
+    ]
+  }
+}
