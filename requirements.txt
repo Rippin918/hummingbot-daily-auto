@@ -22,6 +22,9 @@ aiohttp>=3.9.0
 pandas>=2.0.0
 numpy>=1.24.0
 
+# Redis for pub/sub streaming
+redis>=5.0.0
+
 # Async support
 asyncio>=3.4.3
 
